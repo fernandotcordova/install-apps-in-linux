@@ -1,9 +1,12 @@
-# That file install alls apps util to me. Be safe to copy this archive and add (or withdraw) installers
-# In this archive I think in peoples that are using Ubuntu, but that's archive will install a Snap Packet Manager in this first command. So, we have not problems to others Linux distribuitions that use APT
+#!/bin/bash
+# This file installs all useful applications for me. It's safe to copy this archive and add or remove installers.
+# This script is designed for people using Ubuntu. The first command installs Snap Package Manager,
+# so it should work on other Linux distributions that use APT.
+# I don't take any comments after installations to not fill with unnecessary texts
 
-# To install apps in this archive: 
-# 1. enter in folder that contains this file: cd [folder]
-# 2. modify the permissions: chmod +x apps.sh
+# To install apps from this script:
+# 1. Enter the folder containing this file: cd [folder]
+# 2. Modify permissions: chmod +x apps.sh
 # 3. ./apps.sh
 
 # Applications that will be installed:
@@ -16,19 +19,21 @@
 # Oracle Virtual Box
 # Gnome Extensions Manager
 
-set -e # Stop everthing if someone out of expected
+set -e # Stop everything if something goes wrong
+
 if ! command -v snap &> /dev/null; then
     sudo apt update && sudo apt install -y snapd
 else
-    echo "The snap packet manager is just installed"
+    echo "Snap is already installed"
 fi
 
-# Update package
+# Update packages
 sudo apt update -y
-echo "Updating packets"
+echo "Updating packages"
 
 # Install flatpak
-sudo apt install flatpak
+sudo apt install -y flatpak
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # To VSCode
 sudo snap install --classic code
@@ -50,13 +55,16 @@ sudo snap install netbeans --classic
 sudo snap install postman
 
 # To install AntaresSQL 
-flatpak install flathub it.fabiodistasio.AntaresSQL
+flatpak install -y flathub it.fabiodistasio.AntaresSQL
 
 # To install Oracle Virtual Box
-sudo apt virtualbox
+sudo apt install -y virtualbox
 
 # To install gnome-extesion-manager
 sudo apt install gnome-shell-extension-manager
+
+# To install Vinyl (music app)
+sudo flatpak install flathub page.codeberg.M23Snezhok.Vinyl
 
 # Cleaning temp files
 rm *.deb
