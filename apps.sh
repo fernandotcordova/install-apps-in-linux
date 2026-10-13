@@ -18,6 +18,7 @@
 # AntaresSQL
 # Oracle Virtual Box
 # Gnome Extensions Manager
+# Vinyl
 
 set -e # Stop everything if something goes wrong
 
