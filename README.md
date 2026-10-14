@@ -42,9 +42,9 @@ Apenas certifique-se de estar usando uma distribuição Linux baseada em Debian/
 ### Passo a Passo
 
 1. **Clone o repositório** (ou baixe o arquivo `apps.sh`):
-   ```bash
-   git clone https://github.com/SEU_USUARIO/install-apps-in-linux.git
-   ```
+     ```bash
+     git clone https://github.com/fernandotcordova/install-apps-in-linux.git
+     ```
 2. **Abra a pasta criada**
     ```bash
     cd install-apps-in-linux
