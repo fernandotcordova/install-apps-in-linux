@@ -2,7 +2,7 @@
 #
 # This script installs all useful applications and system tools.
 # It is designed for Ubuntu and Debian-based distributions.
-# This is build to my use PC, but fell free to copy and change the code
+# This was built for my personal PC, but fell free to copy and modify the code
 #
 # ## Instructions
 # 1. Enter the directory: cd [path]
