@@ -1,71 +1,79 @@
-#!/bin/bash
-# This file installs all useful applications for me. It's safe to copy this archive and add or remove installers.
-# This script is designed for people using Ubuntu. The first command installs Snap Package Manager,
-# so it should work on other Linux distributions that use APT.
-# I don't take any comments after installations to not fill with unnecessary texts
-
-# To install apps from this script:
-# 1. Enter the folder containing this file: cd [folder]
-# 2. Modify permissions: chmod +x apps.sh
-# 3. ./apps.sh
-
-# Applications that will be installed:
-# Visual Studio Code
-# IntelliJ
-# ProtonVPN
-# Apache Netbeans
-# Postman
-# AntaresSQL
-# Oracle Virtual Box
-# Gnome Extensions Manager
-# Vinyl
+# ==============================================================================
+#
+# This script installs all useful applications and system tools.
+# It is designed for Ubuntu and Debian-based distributions.
+# This is build to my use PC, but fell free to copy and change the code
+#
+# ## Instructions
+# 1. Enter the directory: cd [path]
+# 2. Grant permissions: chmod +x apps.sh
+# 3. Execute: ./apps.sh
+#
+# ## Applications Installed
+# - IDEs & Editors: Visual Studio Code, IntelliJ IDEA, Apache NetBeans
+# - Development Tools: Postman, AntaresSQL, Oracle VirtualBox
+# - Desktop Utilities: GNOME Extension Manager, AppIndicator support
+# - VPN & Media: ProtonVPN, Vinyl Music Player
+# ==============================================================================
 
 set -e # Stop everything if something goes wrong
 
+## Downloading package manager 
+
+# - Non-interactive mode to prevent blocking dialogs
+export DEBIAN_FRONTEND=noninteractive
+
+## 1. System Update & Package Managers Setup
+
+echo "Updating packages and upgrading system..."
+sudo apt upgrade -y && sudo apt update -y
+
 if ! command -v snap &> /dev/null; then
-    sudo apt update && sudo apt install -y snapd
+    echo "\nInstalling Snapd..."
+    sudo apt install -y snapd
 else
-    echo "Snap is already installed"
+    echo "\nSnap is already installed"
 fi
 
-# Update packages
-sudo apt update -y
-echo "Updating packages"
-
-# Install flatpak
+# - Install flatpak
+echo "\nConfiguring flatpak and flathub..."
 sudo apt install -y flatpak
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-# To VSCode
-sudo snap install --classic code
+## 2. APT Applications
 
-# To InteliJ
-sudo snap install intellij-idea --classic
+echo "\nInstalling APT packages..."
+sudo apt install -y \
+    # To install Oracle Virtual Box
+    virtualbox \
+    # To install gnome-extesion-manager
+    gnome-shell-extension-manager \ 
 
-# To ProtonVPN
+## 3. Snap Applications
+
+echo "\n Installing Snap packages..."
+sudo snap install --classic code # To install VSCode
+sudo snap install intellij-idea --classic # To install InteliJIDEA
+sudo snap install netbeans --classic # To install ApacheNetbeans IDE
+sudo snap install postman # To install Postman
+
+## 4. Flatpak applications
+
+echo "\nInstalling AntaresSQL and Vinyl..."
+flatpak install -y flathub it.fabiodistasio.AntaresSQL # To install AntaresSQL 
+sudo flatpak install -y flathub page.codeberg.M23Snezhok.Vinyl 
+
+## 5. ProtonVPN installation
+echo "\nInstalling ProtonVPN..."
 wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.8_all.deb
 echo "0b14e71586b22e498eb20926c48c7b434b751149b1f2af9902ef1cfe6b03e180 protonvpn-stable-release_1.0.8_all.deb" | sha256sum --check -
-sudo dpkg -i ./protonvpn-stable-release_1.0.8_all.deb && sudo apt update
-sudo apt install proton-vpn-gnome-desktop
-sudo apt install gnome-shell-extension-appindicator gnome-shell-extension-prefs
 
-# To ApacheNetbeans
-sudo snap install netbeans --classic
-
-# To Postman
-sudo snap install postman
-
-# To install AntaresSQL 
-flatpak install -y flathub it.fabiodistasio.AntaresSQL
-
-# To install Oracle Virtual Box
-sudo apt install -y virtualbox
-
-# To install gnome-extesion-manager
-sudo apt install gnome-shell-extension-manager
-
-# To install Vinyl (music app)
-sudo flatpak install flathub page.codeberg.M23Snezhok.Vinyl
+sudo apt install -y ./protonvpn-stable-release_1.0.8_all.deb
+sudo apt update -y
+sudo apt install -y proton-vpn-gnome-desktop
+sudo apt install -y gnome-shell-extension-appindicator gnome-shell-extension-prefs
 
 # Cleaning temp files
-rm *.deb
+rm -f *.deb
+
+echo "All application installed sucessfully"
